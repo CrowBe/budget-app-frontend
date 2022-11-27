@@ -1,20 +1,8 @@
 import { useState } from "react";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import CustomBarChart from "../components/CustomBarChart";
 import { testData2, testMaxDate } from "../constants/testData";
-const data = [{name: 'Page A', uv: 500}, {name: 'Page B', uv: 300}, {name: 'Page C', uv: 200}, {name: 'Page D', uv: 400}];
-
-const renderLineChart = () => (
-  <div style={{height: '200px', width: '100%'}}>
-    <ResponsiveContainer width="100%" height="100%">
-      <LineChart width={600} height={300} data={data}>
-        <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-        <CartesianGrid stroke="#ccc" />
-        <XAxis dataKey="name" />
-        <YAxis />
-      </LineChart>
-    </ResponsiveContainer>
-  </div>
-);
+import { groupDataByPrimaryCategory, groupDataBySecondaryCategory, groupDataByTertiaryCategory } from "../utils/groupingFunctions";
 
 const Transactions = () => {
   const [currentDate, setCurrentDate] = useState<string>(new Date().toString())
@@ -27,10 +15,37 @@ const Transactions = () => {
     <div>
       <h2>Let's have a look at your transactions!</h2>
       <p>
-      Max date in the transaction database: {testMaxDate}.  It's been {calculateDateDiff(currentDate, testMaxDate)} days since you last updated your transactions. The most recent transactions are below. Please upload your latest transactions.
+        Max date in the transaction database: {testMaxDate}.  It's been {calculateDateDiff(currentDate, testMaxDate)} 
+        days since you last updated your transactions. The most recent transactions are below. Please upload your 
+        latest transactions.
       </p>
       {
-        renderLineChart()
+        <CustomBarChart 
+          data={testData2} 
+          dataKeyX={'transactionDate'} 
+          dataKeyY={'transactionAmount'} 
+        />
+      }
+      {
+        <CustomBarChart 
+          data={groupDataByPrimaryCategory(testData2)} 
+          dataKeyX={'primaryCategory'} 
+          dataKeyY={'transactionAmount'} 
+        />
+      }
+      {
+        <CustomBarChart 
+          data={groupDataBySecondaryCategory(testData2)} 
+          dataKeyX={'secondaryCategory'} 
+          dataKeyY={'transactionAmount'} 
+        />
+      }
+      {
+        <CustomBarChart 
+          data={groupDataByTertiaryCategory(testData2)} 
+          dataKeyX={'tertiaryCategory'} 
+          dataKeyY={'transactionAmount'} 
+        />
       }
       <table id='transaction-table'>
         <thead>
