@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { testData2, testMaxDate } from "../constants/testData";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import { testData2, testMaxDate } from "../constants/testData";
 const data = [{name: 'Page A', uv: 500}, {name: 'Page B', uv: 300}, {name: 'Page C', uv: 200}, {name: 'Page D', uv: 400}];
 
 const renderLineChart = () => (
